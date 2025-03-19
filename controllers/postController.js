@@ -1,11 +1,33 @@
+const posts = require("../data/posts");
+
+// Index: restituisce la lista dei post in formato JSON
 const getAllPosts = (req, res) => {
-  res.send("Return all post");
+  res.json(posts);
 };
 
+// Show: restituisce un singolo post in formato JSON
 const getPostById = (req, res) => {
-  res.send(`Return post with ID: ${req.params.id}`);
+  const { id } = req.params;
+  const post = posts.find((p) => p.slug === id);
+  if (!post) {
+    return res.status(404).json({ error: "Post non trovato" });
+  }
+  res.json(post);
 };
 
+// Destroy: elimina un singolo post dalla lista, stampa la lista aggiornata e risponde con stato 204
+const deletePost = (req, res) => {
+  const { id } = req.params;
+  const index = posts.findIndex((p) => p.slug === id);
+  if (index === -1) {
+    return res.status(404).json({ error: "Post non trovato" });
+  }
+  posts.splice(index, 1);
+  console.log("Lista aggiornata dei post:", posts);
+  res.status(204).end();
+};
+
+// Le altre funzioni rimangono invariate
 const createPost = (req, res) => {
   res.send("Store a new post");
 };
@@ -16,10 +38,6 @@ const updatePost = (req, res) => {
 
 const modifyPost = (req, res) => {
   res.send(`Modify post with ID: ${req.params.id}`);
-};
-
-const deletePost = (req, res) => {
-  res.send(`Delete post with ID: ${req.params.id}`);
 };
 
 module.exports = {
