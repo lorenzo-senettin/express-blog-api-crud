@@ -27,10 +27,12 @@ const deletePost = (req, res) => {
   res.status(204).end();
 };
 
-// Funzione per creare un nuovo post
+// Create: aggiunge un nuovo post al blog e restituisce il post creato con status 201
 const createPost = (req, res) => {
-  console.log("Dati:", req.body);
-  res.send("Store a new post");
+  const newPost = req.body;
+  posts.push(newPost);
+  console.log("Dati:", newPost);
+  res.status(201).json(newPost);
 };
 
 const updatePost = (req, res) => {
