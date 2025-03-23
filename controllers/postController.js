@@ -35,8 +35,16 @@ const createPost = (req, res) => {
   res.status(201).json(newPost);
 };
 
+// Update: sostituisce un post esistente con i dati inviati e restituisce il post aggiornato
 const updatePost = (req, res) => {
-  res.send(`Update post with ID: ${req.params.id}`);
+  const { id } = req.params;
+  const updatedData = req.body;
+  const index = posts.findIndex((p) => p.slug === id);
+  if (index === -1) {
+    return res.status(404).json({ error: "Post non trovato" });
+  }
+  posts[index] = updatedData;
+  res.status(200).json(updatedData);
 };
 
 const modifyPost = (req, res) => {
