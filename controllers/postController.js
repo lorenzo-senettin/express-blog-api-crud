@@ -27,8 +27,9 @@ const deletePost = (req, res) => {
   res.status(204).end();
 };
 
-// Le altre funzioni rimangono invariate
+// Funzione per creare un nuovo post
 const createPost = (req, res) => {
+  console.log("Dati:", req.body);
   res.send("Store a new post");
 };
 
